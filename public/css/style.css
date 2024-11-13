@@ -1,0 +1,33 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    text-align: center;
+    transition: background-color 0.3s, color 0.3s;
+}
+h1 {
+    color: #333;
+}
+form input, form button {
+    padding: 10px;
+    margin: 5px;
+}
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+li {
+    margin: 10px 0;
+    color: #555;
+}
+
+.dark-mode {
+    background-color: #333;
+    color: #f0f0f0;
+}
+.dark-mode h1 {
+    color: #f0f0f0;
+}
+.dark-mode form input, .dark-mode form button {
+    background-color: #555;
+    color: #fff;
+}

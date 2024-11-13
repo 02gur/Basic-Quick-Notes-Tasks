@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Notes & Tasks</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <h1>Quick Notes & Tasks</h1>
+    
+    <button onclick="toggleDarkMode()">Toggle Dark Mode</button>
+
+    <!-- Görev Ekleme Formu -->
+    <form action="/add" method="post">
+        <input type="text" name="content" placeholder="Enter your task..." required>
+        <input type="date" name="due_date" required>
+        <input type="time" name="due_time" required>
+        <button type="submit">Add Task</button>
+    </form>
+
+    <ul>
+        <% tasks.forEach((task, index) => { %>
+            <li>
+                <%= task.content %> - Due: <%= task.dueDateTime.toLocaleString() %> 
+                - Created at: <%= task.createdAt.toLocaleString() %> 
+                <form action="/delete" method="post" style="display:inline;">
+                    <input type="hidden" name="taskId" value="<%= index %>">
+                    <button type="submit">Delete</button>
+                </form>
+            </li>
+        <% }) %>
+    </ul>
+
+    <script>
+        // Karanlık Mod Toggle
+        function toggleDarkMode() {
+            document.body.classList.toggle("dark-mode");
+            localStorage.setItem("dark-mode", document.body.classList.contains("dark-mode"));
+        }
+        if (localStorage.getItem("dark-mode") === "true") {
+            document.body.classList.add("dark-mode");
+        }
+
+        // Bildirim İzinini Almak
+        if (Notification.permission !== 'granted') {
+            Notification.requestPermission().then(permission => {
+                if (permission === 'granted') {
+                    console.log("Bildirim izni alındı.");
+                } else {
+                    console.log("Bildirim izni verilmedi.");
+                }
+            });
+        }
+
+        // Görev zamanı yaklaşınca bildirim gönder
+        function notifyTask(task) {
+            const dueTime = new Date(task.dueDateTime);
+            const now = new Date();
+            const timeDiff = dueTime - now;
+
+            // Eğer görev süresi 1 dakika içinde yaklaşmışsa bildirim gönder
+            if (timeDiff > 0 && timeDiff < 60000) {
+                new Notification("Task Reminder", {
+                    body: `Your task "${task.content}" is due soon!`,
+                });
+            }
+        }
+
+        // Görevlerin zamanına yaklaşırken bildirim al
+        setInterval(() => {
+            <% tasks.forEach(task => { %>
+                notifyTask(<%- JSON.stringify(task) %>);
+            <% }) %>
+        }, 60000);  // Her 1 dakikada bir kontrol et
+    </script>
+</body>
+</html>

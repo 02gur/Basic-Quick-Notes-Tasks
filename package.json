@@ -1,0 +1,14 @@
+{
+    "name": "quick-notes-tasks",
+    "version": "1.0.0",
+    "description": "Quick Notes & Tasks App with Node.js and Express",
+    "main": "app.js",
+    "scripts": {
+      "start": "node app.js"
+    },
+    "dependencies": {
+      "express": "^4.18.1",
+      "ejs": "^3.1.6"
+    }
+  }
+  
