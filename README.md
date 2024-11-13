@@ -14,4 +14,4 @@ quick-notes-tasks/
 git clone https://github.com/02gur/quick-notes-tasks.git
 npm install
 npm start
-</pre>pre>
+</pre>
